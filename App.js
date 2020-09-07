@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {useFonts, Lato_400Regular} from '@expo-google-fonts/lato';
-import React from 'react';
+import React, {useState} from 'react';
 import {AntDesign} from '@expo/vector-icons';
 import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 
@@ -8,6 +8,17 @@ import image from './src/assets/bg.jpg';
 import { AppLoading } from 'expo';
 
 export default function App() {
+
+  const [tarefa, setTarefa] = useState([
+    {
+      id: 1,
+      tarefa: 'Minha tarefa 1'
+    },
+    {
+      id: 2,
+      tarefa: 'Minha tarefa 2'  
+    }
+  ])
 
   let [fontsLoaded] = useFonts({
     Lato_400Regular,
@@ -17,6 +28,9 @@ export default function App() {
     return <AppLoading/>; 
   }
 
+  function deletarTarefa(id){
+    alert('Tarefa com id '+ id+' foi deletada com sucesso')
+  }
 
   return (
     <View style={styles.container}>
@@ -28,100 +42,28 @@ export default function App() {
         </ImageBackground>
     
         <ScrollView>    
+        {
+          tarefa.map(function(val){
+            return(
+              <View style={styles.tarefaSingle}>
+                <View>
+                  <Text>{val.tarefa}</Text>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={()=> deletarTarefa(val.id)}
+                  >
+                    <AntDesign name='minuscircleo' size={24} color='#000' />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })
+        
 
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tarefaSingle}>
-        <View>
-          <Text>Minha tarefa do dia xxx o mes xxx</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <AntDesign name='minuscircleo' size={24} color='#000' />
-          </TouchableOpacity>
-        </View>
-      </View>
-
+        }
+         
       </ScrollView>
-
-      
-
 
       <StatusBar hidden/>
     </View>
