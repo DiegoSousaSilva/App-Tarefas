@@ -28,6 +28,7 @@ export default function App() {
   ])
 
   const [modal, setModal] = useState(false);
+  const [tarefaAtual, setTarefaAtual] = useState('');
 
   let [fontsLoaded] = useFonts({
     Lato_400Regular,
@@ -47,6 +48,23 @@ export default function App() {
     setTarefa(newTarefa);
   }
 
+  function addTarefa(){
+    setModal(!modal);
+    
+    let id=0;
+    if(tarefa.length > 0){
+      id = tarefa[tarefa.length-1].id +1;
+    }
+    
+    let newTarefa = {
+      id:id,
+      tarefa: tarefaAtual
+    };
+
+    setTarefa([...tarefa, newTarefa]);
+
+  }
+
 
   return (
     
@@ -62,13 +80,14 @@ export default function App() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextInput autoFocus={true}></TextInput>
+            <TextInput 
+              autoFocus={true}
+              onChangeText={text => setTarefaAtual(text)}
+            ></TextInput>
 
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                setModal(!modal);
-              }}
+              onPress={() => addTarefa()}
             >
               <Text style={styles.textStyle}>Adicionar Tarefa</Text>
             </TouchableHighlight>
