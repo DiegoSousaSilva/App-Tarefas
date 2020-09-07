@@ -17,6 +17,10 @@ export default function App() {
     {
       id: 2,
       tarefa: 'Minha tarefa 2'  
+    },
+    {
+      id: 3,
+      tarefa: 'Minha tarefa 3'  
     }
   ])
 
