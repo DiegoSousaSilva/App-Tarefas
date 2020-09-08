@@ -1,8 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import {useFonts, Lato_400Regular} from '@expo-google-fonts/lato';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {AntDesign} from '@expo/vector-icons';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TouchableHighlight, ScrollView, Modal, TextInput } from 'react-native';
+import {StyleSheet, 
+        Text, 
+        View, 
+        ImageBackground, 
+        TouchableOpacity, 
+        TouchableHighlight, 
+        ScrollView, 
+        Modal, 
+        TextInput,
+        AsyncStorage } from 'react-native';
 
 
 import image from './src/assets/bg.jpg';
@@ -12,23 +21,26 @@ export default function App() {
   
   console.disableYellowBox=true;
 
-  const [tarefa, setTarefa] = useState([
-    {
-      id: 1,
-      tarefa: 'Minha tarefa 1'
-    },
-    {
-      id: 2,
-      tarefa: 'Minha tarefa 2'  
-    },
-    {
-      id: 3,
-      tarefa: 'Minha tarefa 3'  
-    }
-  ])
+  const [tarefa, setTarefa] = useState([])
 
   const [modal, setModal] = useState(false);
   const [tarefaAtual, setTarefaAtual] = useState('');
+
+  useEffect(() => {
+    //alert('App Carregando...');
+
+    (async ()=>{
+      try{
+        let tarefasAtuais = await AsyncStorage.getItem('tarefa');
+        if(tarefasAtuais == null)
+          setTarefa([]);
+        else
+          setTarefa(JSON.parse(tarefasAtuais));  
+      }catch(error){
+        //error
+      }
+    })
+  }, [])
 
   let [fontsLoaded] = useFonts({
     Lato_400Regular,
@@ -46,9 +58,24 @@ export default function App() {
     });
 
     setTarefa(newTarefa);
+
+    (async ()=>{
+      try{
+        await AsyncStorage.setItem('tarefa', JSON.stringify(newTarefa));
+      }catch(error){
+
+      }
+    })();
   }
 
+
+
   function addTarefa(){
+
+    if(tarefaAtual==''){
+      alert("falta algo")
+    }else{
+
     setModal(!modal);
     
     let id=0;
@@ -63,7 +90,18 @@ export default function App() {
 
     setTarefa([...tarefa, newTarefa]);
 
+    (async ()=>{
+      try{
+        await AsyncStorage.setItem('tarefa', JSON.stringify(newTarefa));
+      }catch(error){
+
+      }
+    })();
+
+    setTarefaAtual('');
+
   }
+}
 
 
   return (
@@ -75,19 +113,21 @@ export default function App() {
         transparent={true}
         visible={modal}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          alert("Modal has been closed.");
         }}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TextInput 
               autoFocus={true}
+              value={tarefa}
               onChangeText={text => setTarefaAtual(text)}
             ></TextInput>
 
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => addTarefa()}
+              onPress={() => addTarefa() 
+              }
             >
               <Text style={styles.textStyle}>Adicionar Tarefa</Text>
             </TouchableHighlight>
@@ -234,5 +274,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+
+
+
 });
