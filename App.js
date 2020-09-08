@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import {useFonts, Lato_400Regular} from '@expo-google-fonts/lato';
 import React, {useState, useEffect} from 'react';
 import {AntDesign} from '@expo/vector-icons';
+import image from './src/assets/bg.jpg';
+import { AppLoading } from 'expo';
 import {StyleSheet, 
         Text, 
         View, 
@@ -11,23 +13,18 @@ import {StyleSheet,
         ScrollView, 
         Modal, 
         TextInput,
-        AsyncStorage } from 'react-native';
+        AsyncStorage } from 'react-native';      
 
-
-import image from './src/assets/bg.jpg';
-import { AppLoading } from 'expo';
 
 export default function App() {
+   
   
-  console.disableYellowBox=true;
-
-  const [tarefa, setTarefa] = useState([])
+  const [tarefa, setTarefa] = useState([]);
 
   const [modal, setModal] = useState(false);
   const [tarefaAtual, setTarefaAtual] = useState('');
 
   useEffect(() => {
-    //alert('App Carregando...');
 
     (async ()=>{
       try{
@@ -73,8 +70,8 @@ export default function App() {
   function addTarefa(){
 
     if(tarefaAtual==''){
-      alert("falta algo")
-    }else{
+      alert("Nada Digitado! por favor digite algo");
+  }else{
 
     setModal(!modal);
     
@@ -103,11 +100,9 @@ export default function App() {
   }
 }
 
-
   return (
     
     <View style={styles.container}>
-
       <Modal
         animationType="slide"
         transparent={true}
