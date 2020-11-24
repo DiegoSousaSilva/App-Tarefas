@@ -18,10 +18,10 @@ import {StyleSheet,
 
 export default function App() {
    
-  
   const [tarefa, setTarefa] = useState([]);
 
   const [modal, setModal] = useState(false);
+
   const [tarefaAtual, setTarefaAtual] = useState('');
 
   useEffect(() => {
@@ -102,6 +102,7 @@ export default function App() {
 
   return (
     
+    
     <View style={styles.container}>
       <Modal
         animationType="slide"
@@ -114,8 +115,9 @@ export default function App() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TextInput 
+              style={styles.textInputModal}
               autoFocus={true}
-              value={tarefa}
+              value={tarefaAtual}
               onChangeText={text => setTarefaAtual(text)}
             ></TextInput>
 
@@ -139,9 +141,9 @@ export default function App() {
     
         <ScrollView>    
         {
-          tarefa.map(function(val){
+          tarefa.map((val, index)=>{
             return(
-              <View style={styles.tarefaSingle}>
+              <View key={index} style={styles.tarefaSingle} >
                 <View>
                   <Text>{val.tarefa}</Text>
                 </View>
@@ -172,9 +174,8 @@ export default function App() {
             Adicionar Tarefa!
           </Text>
         </TouchableOpacity>
-         
-      </ScrollView>
 
+      </ScrollView>
 
       <StatusBar hidden/>
     </View>
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -270,7 +271,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center"
   },
-
+  textInputModal:{
+    borderWidth: 1,
+    borderColor: '#c2c2c2',
+    width: 300,
+    padding:10,
+    marginBottom:30
+  },
 
 
 });
